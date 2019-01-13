@@ -14,7 +14,7 @@ This does NOT work on Windows 7 (and likely other versions of Windows).  It appe
 # Dependencies
 This module depends on the [hidapi module](https://github.com/trezor/cython-hidapi), which can be installed with the following:
 
-    sudo apt-get install python-dev libusb-1.0-0-dev libudev-dev
+    sudo apt-get install python-dev libusb-1.0-0-dev libudev-dev cython
     pip install --upgrade setuptools
     pip install hidapi
 
