@@ -22,14 +22,20 @@ https://github.com/trezor/cython-hidapi/blob/6057d41b5a2552a70ff7117a9d19fc21bf8
 
 class Relay(object):
 	"""docstring for Relay"""
-	def __init__(self, idVendor=0x16c0, idProduct=0x05df):
+	def __init__(   self, 
+                        idVendor    = None, 
+                        idProduct   = None,
+                        path        = None):
 		self.h = hid.device()
-		self.h.open(idVendor, idProduct)
-		self.h.set_nonblocking(1)
+                if not idVendor == None:
+                    self.h.open(idVendor, idProduct)
+                elif not path == None: 
+                    self.h.open_path(path)
+                self.h.set_nonblocking(1)
 
 	def get_switch_statuses_from_report(self, report):
 		"""
-
+        = None      = None
 		The report returned is a 8 int list, ex:
 		
 		[76, 72, 67, 88, 73, 0, 0, 2]
@@ -128,21 +134,27 @@ if __name__ == '__main__':
         sleep(1)
 
         # Create a relay object
-	relay = Relay(idVendor=0x16c0, idProduct=0x05df)
+        relay_07 = Relay(path = '0001:0007:00')
+        relay_08 = Relay(path = '0001:0008:00')
 
         while True:
 	    # (Setter) Turn switch 1 on
-	    relay.state(1, on=True)
+	    relay_07.state(1, on=True)
+	    relay_08.state(2, on=True)
 
 	    # (Getter) Print the status of switch 1
-	    print relay.state(1)
+	    print relay_07.state(1)
+	    print relay_08.state(2)
 
 	    sleep(1)
 
 	    # Turn all switches off
-	    relay.state(0, on=False)
+	    relay_07.state(0, on=False)
+	    relay_08.state(0, on=False)
 
 	    # Print the state of all switches
-	    print relay.state(0)
+	    print relay_07.state(0)
+	    print relay_08.state(0)
 
+            sleep(1)
 
